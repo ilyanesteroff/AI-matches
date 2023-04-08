@@ -8,7 +8,6 @@ import Matches from './Matches'
 
 function App() {
   const [current, setCurrent] = useState<string | null>(null)
-  const [subtree, setSubtree] = useState<State[]>([])
   const [level, setLevel] = useState(Level.MIN)
   const [tree, setTree] = useState<State[]>([])
   const [matches, setMatches] = useState(7)
@@ -184,9 +183,10 @@ function App() {
     const tree = getTree('key', level, [matches])
 
     setCurrent('key')
-    setSubtree(tree)
     setTree(tree)
   }, [level, matches, getTree])
+
+  console.log(tree)
 
   const stylesheet = StyleSheet.create({
     container: {
@@ -263,7 +263,7 @@ function App() {
   return (
     <AppContext.Provider value={{
       setCurrent, level, tree,
-      current, matches, subtree
+      current, matches
     }}>
       <div className={css(stylesheet.container)}>
         <div className={css(stylesheet.label)}>
