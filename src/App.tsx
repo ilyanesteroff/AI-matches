@@ -107,6 +107,7 @@ function App() {
     })
 
     while (layer > -1) {
+      // eslint-disable-next-line no-loop-func
       const points = tree.filter((t) => t.layer === layer)
 
       if (points.length > 0) {
