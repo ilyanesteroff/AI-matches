@@ -8,12 +8,16 @@ import { Level } from './types'
 const Matches = () => {
   const { tree, current, setCurrent } = useContext(AppContext)
 
+  //Winner
   const [winner, setWinner] = useState<'c' | 'h' | null>(null)
 
+  //Current division
   const [state, setState] = useState<number[]>([])
 
+  //Whether it is computer's turn
   const [cmove, setCmove] = useState(false)
 
+  //Changes state
   useEffect(() => {
     const node = tree.find((r) => r.id === current)!
 
@@ -23,6 +27,7 @@ const Matches = () => {
     if (current === 'key') setWinner(null)
   }, [current, tree])
 
+  //Makes the move for computer
   useEffect(() => {
     const move = () => {
       const children = tree.filter((c) => c.parents.includes(current!))
@@ -96,6 +101,7 @@ const Matches = () => {
     }
   })
 
+  //Match generation
   const getContent = () => {
     const output: JSX.Element[] = []
 
@@ -113,6 +119,7 @@ const Matches = () => {
           )
 
           if (i < s) {
+            //Player's move handler 
             const onClick = () => {
               const st = [...state]
 

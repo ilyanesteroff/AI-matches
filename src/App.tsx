@@ -7,11 +7,16 @@ import Matches from './Matches'
 
 
 function App() {
+  //ID of current tree vertex
   const [current, setCurrent] = useState<string | null>(null)
+  //Who starts first MIN - computer, MAX - human
   const [level, setLevel] = useState(Level.MIN)
+  //List of vertices
   const [tree, setTree] = useState<State[]>([])
+  //Total matches
   const [matches, setMatches] = useState(7)
 
+  //Get series of numbers the given number can be split into (5) -> [[4, 1], [3, 2]]
   const getSeries = (n: number) => {
     const output: number[][] = []
 
@@ -28,6 +33,7 @@ function App() {
     return output
   }
 
+  //Detects whether the vertex already exists in the list
   const peerAlreadyExists = (peers: State[], peer: State) => {
     const state = peer.state
       .sort((s1, s2) => s1 - s2)
@@ -42,6 +48,7 @@ function App() {
     )
   }
 
+  //Generates children for given vertex
   const createChildren = useCallback((parent: State) => {
     const output: State[] = []
 
@@ -76,6 +83,7 @@ function App() {
     return output
   }, [])
 
+  //Recursive generatiion of children
   const getChildren = useCallback((tree: State[], parent: State) => {
     const children = createChildren(parent)
 
@@ -88,6 +96,7 @@ function App() {
     }
   }, [createChildren])
 
+  //Finds children from the list for given vertex
   const findChildren = useCallback((peer: State, tree: State[]) => {
     const child = createChildren(peer)
 
@@ -98,6 +107,7 @@ function App() {
     return children
   }, [createChildren])
 
+  //MinMax algorithm for list of vertices (tree)
   const runMinMax = useCallback((tree: State[], level: Level) => {
     let layer = 0
 
@@ -129,6 +139,7 @@ function App() {
     }
   }, [])
 
+  //Tree generation, returns list of vertices, based on passsed arguments
   const getTree = useCallback((
     id: string,
     level: Level,
@@ -146,7 +157,7 @@ function App() {
 
     tree.sort((t1, t2) => t1.layer - t2.layer)
 
-    tree.forEach((t, i) => {
+    tree.forEach((t) => {
       const exists = peerAlreadyExists(
         tree.filter((t1) => t.id !== t1.id), t
       )
